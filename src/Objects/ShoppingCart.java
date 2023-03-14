@@ -9,28 +9,36 @@ public class ShoppingCart {
         cart=new ArrayList<>();
     }
     ArrayList<Item> cart;
-    int count=0;
+    private int count=0;
     public void AddItem(Item t){
         t = new Item(t);
         cart.add(t);
         count++;
 
     }
-    public void RemoveItem(Item t){
-        cart.remove(t);
-        count--;
+    public void RemoveItem(Item ref){
+        //Removes all items who share name and price as the passed in ref
+        ArrayList<Item> markedDeletion = new ArrayList<>();
+
+        for (Item item : cart) {
+            if(item.equals(ref)){
+                markedDeletion.add(item);
+                count--;
+            }
+        }
+        cart.removeAll(markedDeletion);
     }
     public float getTotal(){
-        int total = 0;
+        float total = 0;
         for (Item t :
                 cart) {
-            total+=t.price;
+            total += t.getPrice();
         }
         return total;
     }
 
     public void NotifyCustomer(){
 
-        System.out.println("Total Items: " + count);
+        System.out.println("Total Items added: " + count);
     }
 }
