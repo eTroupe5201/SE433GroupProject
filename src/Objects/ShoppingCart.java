@@ -17,7 +17,7 @@ public class ShoppingCart {
 
     }
     public void RemoveItem(Item ref){
-        //Removes all items who share name and price as the passed in ref
+        //Removes all items who are equivalent to ref
         ArrayList<Item> markedDeletion = new ArrayList<>();
 
         for (Item item : cart) {
@@ -37,8 +37,40 @@ public class ShoppingCart {
         return total;
     }
 
+    public void EditQuantity(int quantity, Item ref) throws Exception {
+        //Validate input
+        if(quantity < Common.MIN_QUANTITY){
+            throw new Exception("Invalid quantity");
+        }
+
+        ArrayList<Item> markedDeletion = new ArrayList<>();
+
+        int total=0;
+        for (Item item : cart) {
+            //Case if cart item is equivalent to ref parameter
+            if(item.equals(ref)){
+                total++;
+                //Case if too many equivalent items exist in the cart
+                if(total > quantity){
+                    markedDeletion.add(item);
+                    count--;
+                }
+
+            }
+        }
+        cart.removeAll(markedDeletion);
+
+        //Case if not enough equivalent items exist in the cart
+        while(total < quantity){
+            AddItem(ref);
+            total++;
+        }
+
+
+    }
+
     public void NotifyCustomer(){
 
-        System.out.println("Total Items added: " + count);
+        System.out.println("Total Items in cart: " + count);
     }
 }

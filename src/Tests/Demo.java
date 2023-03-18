@@ -7,6 +7,23 @@ import Objects.ShippingOptions;
 public class Demo {
     public static void Execute() throws Exception {
         //Declare items that customer can add
+        Item Banana = new Item("Banana",1f);
+
+        //Reducing item quantity
+        Customer A = new Customer("Annie", "NY - New York", Banana,100, ShippingOptions.STANDARD);
+        A.AddItem();
+        A.EditQuantity(51);
+        A.CheckOut();
+
+        //Increasing item Quantity
+        Customer B = new Customer("Bobbie", "DE - Delaware", Banana,100, ShippingOptions.STANDARD);
+        B.AddItem();
+        B.EditQuantity(150);
+        B.CheckOut();
+
+    }
+    private void Part1() throws Exception {
+        //Declare items that customer can add
         Item Banana = new Item("Banana",0.50f);
         Item Chicken = new Item("Chicken", 10f);
         Item Eggs = new Item("Eggs", 1000f);

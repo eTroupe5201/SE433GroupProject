@@ -11,7 +11,7 @@ public class Customer {
         shipping = sOpt;
         //Safety Check
         quantity = q;
-        if(quantity < Common.minQuantity){
+        if(quantity < Common.MIN_QUANTITY){
             throw new Exception("Invalid quantity");
         }
         shoppingCart = new ShoppingCart();
@@ -55,36 +55,40 @@ public class Customer {
         float total = GetTotal();
         System.out.println("-------------------------------");
 
-        if(shoppingCart.getTotal() > Common.maxPurchase){
-            System.out.println("PURCHASE-LIMIT: $" +Common.maxPurchase+ "\nCHECKOUT-INCOMPLETE\n");
+        if(shoppingCart.getTotal() > Common.MAX_PURCHASE){
+            System.out.println("PURCHASE-LIMIT: $" +Common.MAX_PURCHASE + "\nCHECKOUT-INCOMPLETE\n");
         }
-        else if(shoppingCart.getTotal() < Common.minPurchase){
-            System.out.println("PURCHASE-MINIMUM: $" +Common.minPurchase+ "\nCHECKOUT-INCOMPLETE\n");
+        else if(shoppingCart.getTotal() < Common.MIN_PURCHASE){
+            System.out.println("PURCHASE-MINIMUM: $" +Common.MIN_PURCHASE + "\nCHECKOUT-INCOMPLETE\n");
         }
         else{
             System.out.println("transaction completed\n");
         }
         return total;
     }
-    public void EditQuantity(int q){
-        quantity=q;
+    public void EditQuantity(int q) throws Exception {
+        if(q < Common.MIN_QUANTITY){
+            throw new Exception("Invalid quantity");
+        }
+        shoppingCart.EditQuantity(q, item);
+        quantity = q;
     }
     private float CalculateExtras(float subtotal){
         float extra = 0;
         if(state.equals("IL - Illinois")||state.equals("CA - California")||state.equals("NY - New York")){
 
-            extra += subtotal * (Common.tax*0.01);
+            extra += subtotal * (Common.TAX *0.01);
         }
 
 
         if(shipping == ShippingOptions.STANDARD){
-            extra += Common.stdCost;
-            if(shoppingCart.getTotal()>Common.stdDiscount){
-                extra -= Common.stdCost;
+            extra += Common.STD_COST;
+            if(shoppingCart.getTotal() > Common.STD_DISCOUNT){
+                extra -= Common.STD_COST;
             }
         }
         else if(shipping == ShippingOptions.NEXTDAY){
-            extra += Common.nextDay;
+            extra += Common.NEXT_DAY;
         }
         return extra;
     }
